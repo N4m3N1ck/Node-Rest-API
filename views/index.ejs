@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <h1></h1>
+    <h1>Programmer Jokes REST API</h1>
+    <p>This is a sample REST API created with node.js</p>
+    <h2>GET /random</h2>
+    <p>Outputs a random joke. No authentication required.</p>
+    <h2>GET /id/:id</h2>
+    <p>Outputs the joke with the requested id. The first joke has id of 1. Basic Authentication Required.</p>
+    <h2>GET /filter?type=TYPE</h2>
+    <p>Outputs all the jokes that belong to TYPE. The available types are: "general", "Python", "JavaScript", "Cpp", "HTML", "SQL", "Java", "Swift". Basic Authentication Required.</p>
+    <h2>GET /all</h2>
+    <p>Outputs all the jokes. Basic Authentication is required</p>
 </body>
 </html>

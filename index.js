@@ -1,14 +1,42 @@
 import express from "express";
+
 const app = express();
 const port = 3000;
 app.use(express.static("public"));
+
 app.listen(port, () =>{
     console.log(`Running on port ${port}`);
 });
+
 // The landing page on which we can put documentation about the API.
 app.get("/", (req, res) => {
     res.render("index.ejs");
 });
+
+// Get a random joke from the API. No authentication is required.
+app.get("/random", (req, res)=>{
+    const rand = Math.floor(Math.random() * jokes.length);
+    res.json(jokes[rand]);
+});
+
+// Get a joke by its id. Basic authentication is required.
+app.get("/id/:id", (req, res) =>{
+    res.json(jokes[req.params.id + 1]);
+});
+
+// Get all the jokes with the requested type. Basic authentication is required.
+app.get("/filter", (req, res) =>{
+    var type = req.query.type;
+    const data = jokes.filter((joke) => joke.type.toLowerCase() === type.toLowerCase());
+    res.json(data);
+});
+
+// Get all the jokes. Basic authentication is required
+app.get("/all", (req, res) =>{
+    res.json(jokes);
+});
+
+
 var jokes = [
     {"id": 1, "type": "general", "joke": "Why do programmers prefer dark mode? Because light attracts bugs."},
     {"id": 2, "type": "Python", "joke": "Why do Python programmers prefer using 'sys' over 'os'? Because they can't C."},
@@ -19,7 +47,7 @@ var jokes = [
     {"id": 7, "type": "SQL", "joke": "Why do SQL developers hate the sea? Because it’s full of JOINs."},
     {"id": 8, "type": "general", "joke": "Why do programmers hate nature? It has too many bugs."},
     {"id": 9, "type": "Java", "joke": "Why do Java developers wear glasses? Because they can't C#."},
-    {"id": 10, "type": "C++", "joke": "Why was the C++ developer always calm? He had a lot of class."},
+    {"id": 10, "type": "Cpp", "joke": "Why was the C++ developer always calm? He had a lot of class."},
     {"id": 11, "type": "general", "joke": "Why don't programmers like to go outside? The sunlight causes too many glares on their screens."},
     {"id": 12, "type": "Python", "joke": "Why did the Python programmer break up with the JavaScript developer? She couldn’t find her closure."},
     {"id": 13, "type": "JavaScript", "joke": "Why was the JavaScript developer so good at art? Because he knew how to draw functions."},
@@ -29,7 +57,7 @@ var jokes = [
     {"id": 17, "type": "SQL", "joke": "Why do SQL developers have trouble with relationships? They can't handle too many joins."},
     {"id": 18, "type": "Java", "joke": "What do you call a Java loop that’s always true? While(true)!" },
     {"id": 19, "type": "general", "joke": "What do you get when you cross a computer and a life guard? A screensaver."},
-    {"id": 20, "type": "general", "joke": "Why do programmers prefer iOS development over Android? They’re just Swift that way."},
+    {"id": 20, "type": "Swift", "joke": "Why do programmers prefer iOS development over Android? They’re just Swift that way."},
     {"id": 21, "type": "general", "joke": "Why was the computer cold? It left its Windows open."},
     {"id": 22, "type": "general", "joke": "What do you call an iPhone that isn't kidding around? Dead Siri-ous."},
     {"id": 23, "type": "Python", "joke": "Why do Python programmers have a great sense of humor? They use 'import jokes'."},
