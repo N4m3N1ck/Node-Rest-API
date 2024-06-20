@@ -34,6 +34,7 @@ app.get("/id/:id", (req, res) =>{
         res.json(jokes[parseInt(req.params.id) - 1]);
     } else {
         res.status(401);
+        console.log("Permission was denied");
         res.send("Invalid API key");
     }
     
@@ -49,6 +50,7 @@ app.get("/filter", (req, res) =>{
         res.json(data);
     } else {
         res.status(401);
+        console.log("Permission was denied");
         res.send("Invalid API key");
     }
 });
@@ -61,6 +63,7 @@ app.get("/all", (req, res) =>{
         res.json(jokes);
     } else {
         res.status(401);
+        console.log("Permission was denied");
         res.send("Invalid API key");
     }
 });
@@ -75,10 +78,25 @@ app.post("/make", (req, res) => {
         res.send("OK");
     } else {
         res.status(401);
+        console.log("Permission was denied");
         res.send("Invalid API key");
     }
 });
 //PUT a joke. API key is required
+app.put("/replace", (req, res) => {
+    var apiKey = req.query.apiKey;
+    console.log(`Joke with id of ${req.body.id} was replaced with a new one with the ${apiKey} API key`);
+    if(sampleApiKeys.includes(apiKey)){
+        jokes[req.body.id-1].type = req.body.type;
+        jokes[req.body.id-1].joke = req.body.joke; 
+        res.status(200);
+        res.send("OK");
+    } else {
+        res.status(401);
+        console.log("Permission was denied");
+        res.send("Invalid API key");
+    }
+});
 var jokes = [
     {"id": 1, "type": "general", "joke": "Why do programmers prefer dark mode? Because light attracts bugs."},
     {"id": 2, "type": "Python", "joke": "Why do Python programmers prefer using 'sys' over 'os'? Because they can't C."},
