@@ -21,7 +21,7 @@ app.get("/random", (req, res)=>{
 
 // Get a joke by its id. Basic authentication is required.
 app.get("/id/:id", (req, res) =>{
-    res.json(jokes[req.params.id + 1]);
+    res.json(jokes[parseInt(req.params.id) - 1]);
 });
 
 // Get all the jokes with the requested type. Basic authentication is required.

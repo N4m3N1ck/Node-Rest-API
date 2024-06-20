@@ -1,0 +1,66 @@
+body{
+    margin: 40px;
+    background-color: #e3e3e3;
+    color: #222831;
+}
+.documentation{
+    padding-bottom: 20px;
+    border-radius: 20px;
+    background-color: #f2f2f2;
+}
+#title{
+    margin: 0;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    color: #f96d00;
+}
+#titleJoke{
+    margin: 0;
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #e3e3e3;
+}
+h2{
+    padding: 20px;
+    color: #f96d00;
+    background-color: #393e46;
+}
+header{
+    border-radius: 20px 20px 0px 0px;
+    position: relative;
+    height:30vh;
+    padding: 100px;
+    background-color: #393e46;
+}
+p{
+    margin-left: 20px;
+    line-height: 2;
+}
+.snippet{
+    background-color: #e3e3e3;
+    border: 1px solid #393e46;
+    border-radius: 5px;
+    margin-right: 20px;
+    padding: 10px;
+}
+.green{
+    color: #a2c11c;
+}
+.ubuntu-mono-regular {
+    font-family: "Ubuntu Mono", monospace;
+    font-weight: 400;
+    font-style: normal;
+}
+.ubuntu-mono-bold {
+    font-family: "Ubuntu Mono", monospace;
+    font-weight: 700;
+    font-style: normal;
+}
