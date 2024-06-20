@@ -1,10 +1,14 @@
 import express from "express";
-import pg from "pg";
-var client = new pg.Client(process.env.DATABASE);
-client.connect();
+import bodyParser from "body-parser";
+
+var sampleApiKeys = ["abcdef123456", "aaaaaa111111", "aabbcc112233"]
+
 const app = express();
 const port = 3000;
+app.use(bodyParser.json());
 app.use(express.static("public"));
+app.use(bodyParser.urlencoded({extended: true}));
+
 
 app.listen(port, () =>{
     console.log(`Running on port ${port}`);
@@ -17,28 +21,64 @@ app.get("/", (req, res) => {
 
 // Get a random joke from the API. No authentication is required.
 app.get("/random", (req, res)=>{
+    console.log("Random joke was requested");
     const rand = Math.floor(Math.random() * jokes.length);
     res.json(jokes[rand]);
 });
 
-// Get a joke by its id. Basic authentication is required.
+// Get a joke by its id. API key is required.
 app.get("/id/:id", (req, res) =>{
-    res.json(jokes[parseInt(req.params.id) - 1]);
+    var apiKey = req.query.apiKey;
+    console.log(`The joke with id ${req.params.id} was requested with the ${apiKey} API key`);
+    if(sampleApiKeys.includes(apiKey)){
+        res.json(jokes[parseInt(req.params.id) - 1]);
+    } else {
+        res.status(401);
+        res.send("Invalid API key");
+    }
+    
 });
 
-// Get all the jokes with the requested type. Basic authentication is required.
+// Get all the jokes with the requested type. API key is required.
 app.get("/filter", (req, res) =>{
-    var type = req.query.type;
-    const data = jokes.filter((joke) => joke.type.toLowerCase() === type.toLowerCase());
-    res.json(data);
+    var apiKey = req.query.apiKey;
+    console.log(`Jokes with the filter ${type} was requested with the ${apiKey} API key`);
+    if(sampleApiKeys.includes(apiKey)){
+        var type = req.query.type;
+        const data = jokes.filter((joke) => joke.type.toLowerCase() === type.toLowerCase());
+        res.json(data);
+    } else {
+        res.status(401);
+        res.send("Invalid API key");
+    }
 });
 
-// Get all the jokes. Basic authentication is required
+// Get all the jokes. API key is required
 app.get("/all", (req, res) =>{
-    res.json(jokes);
+    var apiKey = req.query.apiKey;
+    console.log(`All jokes were requested with the ${apiKey} API key`);
+    if(sampleApiKeys.includes(apiKey)){
+        res.json(jokes);
+    } else {
+        res.status(401);
+        res.send("Invalid API key");
+    }
 });
 
-
+//POST a joke. API key is required
+app.post("/make", (req, res) => {
+    var apiKey = req.query.apiKey;
+    console.log(`Joke '${req.body.joke}' was posted with the ${apiKey} API key`);
+    if(sampleApiKeys.includes(apiKey)){
+        jokes.push({id:jokes.length+1,type:req.body.type,joke:req.body.joke});
+        res.status(200);
+        res.send("OK");
+    } else {
+        res.status(401);
+        res.send("Invalid API key");
+    }
+});
+//PUT a joke. API key is required
 var jokes = [
     {"id": 1, "type": "general", "joke": "Why do programmers prefer dark mode? Because light attracts bugs."},
     {"id": 2, "type": "Python", "joke": "Why do Python programmers prefer using 'sys' over 'os'? Because they can't C."},
