@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 
-var sampleApiKeys = ["abcdef123456", "aaaaaa111111", "aabbcc112233"]
+var sampleApiKeys = ["qhyghy463321"]
 
 const app = express();
 const port = 3000;
