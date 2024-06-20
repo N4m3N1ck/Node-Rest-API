@@ -54,6 +54,12 @@ p{
 .green{
     color: #a2c11c;
 }
+.yellow{
+    color: #f9b248;
+}
+.red{
+    color: #eb2632;
+}
 .ubuntu-mono-regular {
     font-family: "Ubuntu Mono", monospace;
     font-weight: 400;

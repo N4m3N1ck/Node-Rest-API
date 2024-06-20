@@ -74,6 +74,22 @@
           "type": "general",<br>
           "joke": "Why do Java developers wear glasses? Because they don’t C#."<br>
         },<br>...<br>...<br>...<br>]</p>
+    <h2>POST /make</h2>
+    <p>Create a new joke. An API key is required.</p>
+    <p>Sample request:</p>
+    <p class="snippet"><span class="yellow">POST</span> https:/API_URL.com/make?apiKey=abcdef123456</p>
+    <p>Request body:</p>
+    <p class="snippet">{"type":"JOKE_TYPE", "joke": "JOKE"}</p>
+    <h2>PUT /replace/:id</h2>
+    <p>Replace an old joke with a new one. An API key is required.</p>
+    <p>Sample request:</p>
+    <p class="snippet"><span class="yellow">PUT</span> https:/API_URL.com/replace/10?apiKey=abcdef123456</p>
+    <p>Request body:</p>
+    <p class="snippet">{"type":"JOKE_TYPE", "joke": "JOKE"}</p>
+    <h2>DELETE /delete/:id</h2>
+    <p>Deletes the joke with requested id. An API key is required.</p>
+    <p>Sample request:</p>
+    <p class="snippet"><span class="red">DELETE</span> https:/API_URL.com/delete/10?apiKey=abcdef123456</p>
     </div>
     <script src="/scripts/index.js"></script>
 </body>
