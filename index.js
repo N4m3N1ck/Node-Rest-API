@@ -31,11 +31,12 @@ app.get("/id/:id", (req, res) =>{
     var apiKey = req.query.apiKey;
     console.log(`The joke with id ${req.params.id} was requested with the ${apiKey} API key`);
     if(sampleApiKeys.includes(apiKey)){
-        res.json(jokes[parseInt(req.params.id) - 1]);
+        const joke = jokes.find((joke)=> joke.id === parseInt(req.params.id));
+        res.json(joke);
     } else {
         res.status(401);
         console.log("Permission was denied");
-        res.send("Invalid API key");
+        res.send("Invalid API key or request");
     }
     
 });
@@ -51,7 +52,7 @@ app.get("/filter", (req, res) =>{
     } else {
         res.status(401);
         console.log("Permission was denied");
-        res.send("Invalid API key");
+        res.send("Invalid API key or request");
     }
 });
 
@@ -64,7 +65,7 @@ app.get("/all", (req, res) =>{
     } else {
         res.status(401);
         console.log("Permission was denied");
-        res.send("Invalid API key");
+        res.send("Invalid API keyor request");
     }
 });
 
@@ -72,29 +73,43 @@ app.get("/all", (req, res) =>{
 app.post("/make", (req, res) => {
     var apiKey = req.query.apiKey;
     console.log(`Joke '${req.body.joke}' was posted with the ${apiKey} API key`);
-    if(sampleApiKeys.includes(apiKey)){
-        jokes.push({id:jokes.length+1,type:req.body.type,joke:req.body.joke});
+    if(sampleApiKeys.includes(apiKey) && req.body.type && req.body.joke){
+        jokes.push({id:jokes[jokes.length-1].id+1,type:req.body.type,joke:req.body.joke});
         res.status(200);
         res.send("OK");
     } else {
         res.status(401);
         console.log("Permission was denied");
-        res.send("Invalid API key");
+        res.send("Invalid API keyor request");
     }
 });
 //PUT a joke. API key is required
-app.put("/replace", (req, res) => {
+app.put("/replace/:id", (req, res) => {
     var apiKey = req.query.apiKey;
     console.log(`Joke with id of ${req.body.id} was replaced with a new one with the ${apiKey} API key`);
-    if(sampleApiKeys.includes(apiKey)){
-        jokes[req.body.id-1].type = req.body.type;
-        jokes[req.body.id-1].joke = req.body.joke; 
+    if(sampleApiKeys.includes(apiKey) && req.body.type && req.body.joke){
+        jokes[jokes.indexOf(jokes.find((joke)=> joke.id === parseInt(req.params.id)))].type = req.body.type;
+        jokes[jokes.indexOf(jokes.find((joke)=> joke.id === parseInt(req.params.id)))].joke = req.body.joke; 
         res.status(200);
         res.send("OK");
     } else {
         res.status(401);
         console.log("Permission was denied");
-        res.send("Invalid API key");
+        res.send("Invalid API key or request");
+    }
+});
+//DELETE a joke. API KEY is required
+app.delete("/delete/:id", (req, res)=>{
+    var apiKey = req.query.apiKey;
+    console.log(`Joke with id of ${req.params.id} was removed with the ${apiKey} API key`);
+    if(sampleApiKeys.includes(apiKey)){
+        jokes.splice(jokes.indexOf(jokes.find((joke)=> joke.id === parseInt(req.params.id))), 1);
+        res.status(200);
+        res.send("OK");
+    }else {
+        res.status(401);
+        console.log("Permission was denied");
+        res.send("Invalid API key or request");
     }
 });
 var jokes = [
