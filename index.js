@@ -1,5 +1,7 @@
 import express from "express";
-
+import pg from "pg";
+var client = new pg.Client(process.env.DATABASE);
+client.connect();
 const app = express();
 const port = 3000;
 app.use(express.static("public"));
